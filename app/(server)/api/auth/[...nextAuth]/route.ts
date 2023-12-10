@@ -46,6 +46,7 @@ const options: AuthOptions = {
 
     // TODO: add custom pages
     adapter: PrismaAdapter(prisma),
+    secret: process.env.NEXTAUTH_SECRET,
     session: { strategy: 'jwt', maxAge: 24 * 60 * 60 },
     callbacks: {
         async session({ session, user }) {
