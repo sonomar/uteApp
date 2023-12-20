@@ -4,64 +4,13 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from '@/app/shared/lib/prisma';
 import * as bcrypt from 'bcrypt';
 import NextAuth from 'next-auth/next';
+import { config } from '@/app/(server)/utils/helpers';
 
-const confirmPasswordHash = (plainPassword:string, hashedPassword:string) => {
-    return new Promise(resolve => {
-        bcrypt.compare(plainPassword, hashedPassword, function(err, res) {
-            resolve(res);
-        });
-    })
+const confirmPasswordHash = async (plainPassword:string, hashedPassword:string) => {
+    return await bcrypt.compare(plainPassword, hashedPassword);
 }
 
-const options: AuthOptions = {
-    providers: [
-        CredentialsProvider({
-            name: 'Credentials',
-            credentials: {
-                email: {},
-                password: {},
-            },
-            // TODO: modify to use hashed passswords
-            async authorize(credentials) {
-                console.log(credentials);
-                const user = await prisma.user.findUnique({
-                    where: { email: credentials?.email },
-                    select: { id: true, email: true, password: true },
-                });
-
-                if (user && credentials) {
-                    const res = await confirmPasswordHash(credentials.password, user.password);
-                        if (res === true) {
-                            return { ...user, password: undefined };
-                        }
-                        else {
-                            return null;
-                        }
-                } else {
-                    return null;
-                }
-            },
-        }),
-    ],
-
-    // TODO: add custom pages
-    adapter: PrismaAdapter(prisma),
-    secret: process.env.NEXTAUTH_SECRET,
-    session: { strategy: 'jwt', maxAge: 24 * 60 * 60 },
-    callbacks: {
-        async session({ session, user }) {
-            if (user !== null) {
-                session.user = user;
-            }
-            return await session;
-        },
-
-        async jwt({ token }) {
-            return await token;
-        },
-    },
-};
-
+const options: AuthOptions = config
 const handler = NextAuth(options);
 
 export { handler as GET, handler as POST };

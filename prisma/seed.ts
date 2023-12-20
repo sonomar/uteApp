@@ -8,8 +8,8 @@ const roundsOfHashing = 10;
 
 async function main() {
   
-  const passwordUser1 = await bcrypt.hash('password-user1', roundsOfHashing);
-  const passwordUser2 = await bcrypt.hash('password-user2', roundsOfHashing);
+  const passwordUser1 = await bcrypt.hash('passwordUser1', roundsOfHashing);
+  const passwordUser2 = await bcrypt.hash('passwordUser2', roundsOfHashing);
 
   // create two dummy users
   const user1 = await prisma.user.upsert({
