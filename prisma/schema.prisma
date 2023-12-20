@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Article {
-  id          String     @id @default(cuid())
+  id          String   @id @default(cuid())
   title       String   @unique
   description String?
   body        String?
@@ -23,11 +23,40 @@ model Article {
 }
 
 model User {
-  id        String       @id @default(cuid())
+  id        String    @id @default(cuid()) @map("user_id")
   name      String?
   email     String    @unique
   password  String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   articles  Article[]
+  Session   Session[]
+  Account   Account[]
+}
+
+model Session {
+  id            String   @id @default(cuid())
+  session_token String   @unique
+  user          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String   @map("user_id")
+  expires       DateTime
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  @@unique([provider, providerAccountId])
+  @@map("account")
 }
