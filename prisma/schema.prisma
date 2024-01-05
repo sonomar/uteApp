@@ -1,4 +1,4 @@
-// This is your Prisma schema file
+// This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
@@ -37,14 +37,14 @@ model User {
 model Session {
   id            String   @id @default(cuid())
   session_token String   @unique
-  user          User    @relation(fields: [userId], references: [id] onDelete: Cascade)
+  user          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String   @map("user_id")
   expires       DateTime
 }
 
 model Account {
   id                String  @id @default(cuid())
-  user              User    @relation(fields: [userId], references: [id] onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId            String  @map("user_id")
   type              String
   provider          String
