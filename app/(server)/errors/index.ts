@@ -1,3 +1,3 @@
 export * from './wrongCredentialsError';
-export * from './articleAlreadyExistError';
-export * from './articleNotFoundError';
+export * from './alreadyExistError';
+export * from './notFoundError';

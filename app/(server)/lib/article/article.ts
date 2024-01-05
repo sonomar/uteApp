@@ -1,6 +1,6 @@
 import { prisma } from '@/app/shared/lib/prisma';
 import { Article, Prisma } from '@prisma/client';
-import { ArticleAlreadyExistError, ArticleNotFoundError } from '@/app/(server)/errors';
+import { alreadyExistError, notFoundError  } from '@/app/(server)/errors';
 
 export const getArticle = async (id: string): Promise<Article> => {
     const article = await prisma.article.findFirst({
@@ -12,7 +12,7 @@ export const getArticle = async (id: string): Promise<Article> => {
         },
     });
 
-    if (!article) throw new ArticleNotFoundError();
+    if (!article) throw new notFoundError();
 
     return { ...article };
 };
@@ -27,7 +27,7 @@ export const getArticlesByAuthor = async (authorId: string): Promise<Article[]> 
         },
     });
 
-    if (!articles) throw new ArticleNotFoundError();
+    if (!articles) throw new notFoundError();
 
     return articles;
 };
@@ -47,7 +47,7 @@ export const createArticle = async (
             },
         });
 
-        if (article) throw new ArticleAlreadyExistError();
+        if (article) throw new alreadyExistError();
 
         const articleData: Prisma.ArticleCreateManyInput = {
             title,
