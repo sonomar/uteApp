@@ -1,4 +1,4 @@
-// This is your Prisma schema file,
+// This is your Prisma schema file
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
@@ -37,26 +37,96 @@ model User {
 model Session {
   id            String   @id @default(cuid())
   session_token String   @unique
-  user          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User    @relation(fields: [userId], references: [id] onDelete: Cascade)
   userId        String   @map("user_id")
   expires       DateTime
 }
 
 model Account {
   id                String  @id @default(cuid())
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id] onDelete: Cascade)
   userId            String  @map("user_id")
   type              String
   provider          String
   providerAccountId String  @map("provider_account_id")
-  refresh_token     String?
-  access_token      String?
+  refresh_token     String?  
+  access_token      String? 
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
-  session_state     String?
+  id_token          String? 
+  session_state     String? 
 
   @@unique([provider, providerAccountId])
   @@map("account")
+}
+
+model testProject {
+  id                String  @id @default(cuid())
+  NUMMER Int?
+  JAHR Int?
+  VERTRAGNR Int?
+  KLIENT String?  @db.VarChar(500)  @db.VarChar(500)
+  KÜRZEL String?  @db.VarChar(500)
+  PRODUKTION String?  @db.VarChar(500)
+  SENDER String?  @db.VarChar(500)
+  ADATUM Date?
+  VDATUM Date?
+  A1 String?  @db.VarChar(500)
+  TA1 String?  @db.VarChar(500)
+  A2 String?  @db.VarChar(500)
+  TA2 String?  @db.VarChar(500)
+  A3 String?  @db.VarChar(500)
+  TA3 String?  @db.VarChar(500)
+  A4 String?  @db.VarChar(500)
+  TA4 String?  @db.VarChar(500)
+  TITEL String?  @db.VarChar(500)
+  REGIE String?  @db.VarChar(500)
+  ROLLE String?  @db.VarChar(500)
+  PARTNER String?  @db.VarChar(500)
+  XY String?  @db.VarChar(500)
+  TAGE String?  @db.VarChar(500)
+  PBDATUM Date?
+  PDATUM Date?
+  TERMINE String?  @db.VarChar(500)
+  ODATUM String?  @db.VarChar(500)
+  ZEITRAUM String?  @db.VarChar(500)
+  VERMERK String?  @db.VarChar(500)
+  PROVISION Double?
+  PROV2 String?  @db.VarChar(500)
+  NOTIZ String?  @db.VarChar(2000)
+}
+
+
+
+model testAddress {
+  ID                String  @id @default(cuid())
+  SUCH String?  @db.VarChar(500)
+  A1 String?  @db.VarChar(500)
+  A2 String?  @db.VarChar(500)
+  A3 String?  @db.VarChar(500)
+  STRASSE String?  @db.VarChar(500)
+  LAND String?  @db.VarChar(500)
+  PLZ String?  @db.VarChar(500)
+  ORT String?  @db.VarChar(500)
+  TELEFON1 String?  @db.VarChar(500)
+  TELEFON2 String?  @db.VarChar(500)
+  TELE_ZENT Boolean @db.TinyInt
+  FUNKTELE String?  @db.VarChar(500)
+  PRIVATTEL String?  @db.VarChar(500)
+  TELEFAX1 String?  @db.VarChar(500)
+  TELEFAX2 String?  @db.VarChar(500)
+  FUNKTION String?  @db.VarChar(500)
+  TITEL String?  @db.VarChar(500)
+  VORNAME String?  @db.VarChar(500)
+  NACHNAME String?  @db.VarChar(500)
+  FIRMA String?  @db.VarChar(500)
+  POSITION String?  @db.VarChar(500)
+  ANSPRECH String?  @db.VarChar(500)
+  ANREDE String?  @db.VarChar(500)
+  ZUSATZ String?  @db.VarChar(500)
+  NOTIZEN String?  @db.VarChar(500)
+  AENDERUNGS Date?
+  KATALOGVER Boolean @db.TinyInt
+  EMAIL String?  @db.VarChar(500)
 }
