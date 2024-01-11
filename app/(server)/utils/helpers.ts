@@ -54,16 +54,21 @@ export const config = {
     secret: process.env.NEXTAUTH_SECRET,
     session: { strategy: 'jwt', maxAge: 24 * 60 * 60 },
     callbacks: {
-        async session({ session, user }) {
-            if (user !== null) {
-                session.user = user;
+        async session({ user, session, token }) {
+            // I skipped the line below coz it gave me a TypeError
+            // session.accessToken = token.accessToken;
+            if (user && session !== null) {
+                session.user.id = token.id;
             }
             return await session;
-        },
-
-        async jwt({ token }) {
-            return await token;
-        },
+          },
+        async jwt({ token, account, user }) {
+            if (account) {
+              token.accessToken = account.access_token
+              token.id = user?.id
+            }
+            return token
+          }
     },
 } satisfies NextAuthOptions
 
