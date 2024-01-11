@@ -6,8 +6,6 @@ import { getServerSession } from "next-auth";
 const Main = async() => {
     const session = await getServerSession(config)
     const authorArticles = await getArticlesByAuthor((session?.user as any).id)
-    const jsonArticles = JSON.parse(JSON.stringify(authorArticles));
-    console.log(jsonArticles);
     return (
             <>
                 <div>
@@ -15,7 +13,7 @@ const Main = async() => {
                 </div>
                 <div>
                         {
-                            jsonArticles.map((article:Article) => {
+                            authorArticles.map((article:Article) => {
                                 return <p key={article.title}>{article.title}</p>
                             })
                         }
