@@ -57,9 +57,7 @@ export const config = {
         async session({ user, session, token }) {
             // I skipped the line below coz it gave me a TypeError
             // session.accessToken = token.accessToken;
-            if (user && session !== null) {
                 session.user.id = token.id;
-            }
             return await session;
           },
         async jwt({ token, account, user }) {
